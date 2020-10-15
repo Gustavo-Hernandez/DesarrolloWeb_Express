@@ -58,7 +58,7 @@
     <footer class="footer mt-4">
       <div class="container">
         <p>Control Panel</p>
-        <p><a href="#" id="clear">Clear Table</a> | <a href="/api/tables">API Table Link</a> | <a href="/api/waitlist">API
+        <p><a href="/api/tables" id="clear">Clear Table</a> | <a href="/api/tables">API Table Link</a> | <a href="/api/waitlist">API
             Wait List</a>
       </div>
     </footer>
@@ -70,10 +70,37 @@
 
 <!-- BELOW CODE IS CRITICAL. IT HANDLES HOW FORM DATA IS LOADED FROM OUR SERVER -->
 <script type="text/javascript">
+  $.get("api/tables",(data)=>{
+    const tables = $("#tableList");
+    for (let i = 0; i < data.length; i++) {
+      let listGroupItem = $("<li class='list-group-item'>");
+          listGroupItem.append($("<h2>").text("Table #" + i));
+          listGroupItem.append($("<hr>"))
+          listGroupItem.append($("<h4>").text("Name: " + data[i].name));
+          listGroupItem.append($("<h4>").text("Phone: " +  data[i].phoneNumber));
+          listGroupItem.append($("<h4>").text("Email: " +  data[i].email));
+          listGroupItem.append($("<h4>").text("Unique ID: " +  data[i].uniqueId));
+      tables.append(listGroupItem);
+    }
+  });
 
+  $.get("api/waitlist",(data)=>{
+    const waitList = $("#waitList");
+    for (let i = 0; i < data.length; i++) {
+      let listGroupItem = $("<li class='list-group-item'>");
+          listGroupItem.append($("<h2>").text("Table #" + (5+i)));
+          listGroupItem.append($("<hr>"))
+          listGroupItem.append($("<h4>").text("Name: " + data[i].name));
+          listGroupItem.append($("<h4>").text("Phone: " +  data[i].phoneNumber));
+          listGroupItem.append($("<h4>").text("Email: " +  data[i].email));
+          listGroupItem.append($("<h4>").text("Unique ID: " +  data[i].uniqueId));
+      waitList.append(listGroupItem);
+    }
+  });
 
-
-
+  $("#clear").on("click", ()=>{
+    $.post("/api/clear")
+  });
 </script>
 
 </html>

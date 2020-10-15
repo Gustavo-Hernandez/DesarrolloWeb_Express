@@ -23,13 +23,22 @@ router.get("/api/tables", (req,res)=>{
 })
 
 router.post("/api/reservation",(req, res)=>{
-    const {name, phoneNumber, email, uniqueId} = req.body;
-    if (name && phoneNumber && email && uniqueId) {
-        const reservation = {name, phoneNumber, email, uniqueId}
-        tables.length < 5 ? tables.push(reservation) : waitList.push(reservation)
-        res.status(200).json({success: true, reservation});
-    }else{
-        return res.status(400).json({success: false,error:"Some data is missing."})
+    const {reservation} = req.body;
+    if (reservation) {
+        const {name, phoneNumber, email, uniqueId} = reservation;
+        if (name && phoneNumber && email && uniqueId) {
+            if (!reservationExists(uniqueId)) {
+                const reservation = {name, phoneNumber, email, uniqueId}
+                tables.length < 5 ? tables.push(reservation) : waitList.push(reservation)
+                res.json({success: true, reservation});
+            } else {
+                return res.json({success: false, message:"Error reservation already exists."})
+            }
+        }else{
+            return res.json({success: false,message:"Some data is missing."})
+        }      
+    } else {
+        return res.json({success: false,message:"Request contains no data."})
     }
 })
 
@@ -40,7 +49,21 @@ router.get("/api/waitlist", (req,res)=>{
 router.post("/api/clear", (req, res)=>{
     tables = [];
     waitList = [];
-    res.status(200).json({success: true, message:"Data has been cleared."});
+    res.json({success: true});
 });
+
+function reservationExists(id){
+    for (let i = 0; i < tables.length; i++) {
+        if(tables[i].uniqueId == id){
+            return true;
+        }
+    }
+    for (let i = 0; i < waitList.length; i++) {
+        if(waitList[i].uniqueId == id){
+            return true;
+        }
+    }
+    return false;
+}
 
 module.exports = router;

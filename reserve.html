@@ -84,6 +84,25 @@
 
 <!-- BELOW CODE IS CRITICAL. IT HANDLES HOW FORM DATA IS SENT TO OUR SERVER -->
 <script type="text/javascript">
-
+  $(".submit").on("click", async (event)=>{
+    event.preventDefault();
+    const newReservation = {
+      name:  $("#reserve-name").val(),
+      phoneNumber: $("#reserve-phone").val(),
+      email: $("#reserve-email").val(),
+      uniqueId: $("#reserve-unique-id").val()
+    }
+    const response = await $.post("/api/reservation", {reservation: newReservation});
+    if(response.success){
+      $("#reserve-name").val("");
+      $("#reserve-phone").val("");
+      $("#reserve-email").val("");
+      $("#reserve-unique-id").val("");
+      alert("Registration was successful.")
+    }else{
+      console.log(response)
+      alert(`${response.message}`);
+    }
+  });
 
 </script>
