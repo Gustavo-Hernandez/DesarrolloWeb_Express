@@ -4,7 +4,7 @@ const router = express.Router();
 
 var tables = [];
 var waitList = []; 
-
+var visits = 0;
 
 //Render routes
 router.get("/", (req, res)=>{
@@ -45,6 +45,15 @@ router.post("/api/reservation",(req, res)=>{
 router.get("/api/waitlist", (req,res)=>{
     res.json(waitList)
 })
+
+router.get("/api/visits", async(req, res)=>{
+    res.json({visits});
+});
+
+router.post("/api/visits",(req, res)=>{
+    visits = visits + 1;
+    res.json({visits});
+});
 
 router.post("/api/clear", (req, res)=>{
     tables = [];
