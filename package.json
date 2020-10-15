@@ -1,0 +1,23 @@
+{
+  "name": "desarrolloweb_express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start-server": "nodemon ./server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gustavo-Hernandez/DesarrolloWeb_Express.git"
+  },
+  "author": "Gustavo-Hernandez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gustavo-Hernandez/DesarrolloWeb_Express/issues"
+  },
+  "homepage": "https://github.com/Gustavo-Hernandez/DesarrolloWeb_Express#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.5"
+  }
+}
